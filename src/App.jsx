@@ -5,7 +5,7 @@ import LoginRegisterForm from "./components/LoginRegisterForm.jsx";
 import ChatInterface from "./components/ChatInterface.jsx";
 
 const API_URL = import.meta.env.VITE_API_URL;
-const socket = io("http://localhost:5000", {
+const socket = io(`${API_URL}`, {
   reconnection: true,
   reconnectionAttempts: 5,
 });
