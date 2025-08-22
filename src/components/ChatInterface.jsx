@@ -22,7 +22,8 @@ const ChatInterface = ({
   deleteGroup,
   addMemberToGroup,
   kickMemberFromGroup,
-  unreadCounts
+  unreadCounts,
+  socket
 }) => {
   const [message, setMessage] = useState("");
   const [showCreateGroup, setShowCreateGroup] = useState(false);
@@ -83,7 +84,7 @@ const ChatInterface = ({
           groups={groups}
           getInitials={getInitials}
         />
-        <MessageList messages={messages} username={username} getInitials={getInitials} />
+        <MessageList messages={messages} username={username} getInitials={getInitials} isGroupChat={isGroupChat}  socket={socket}  />
         <ChatInput
           message={message}
           setMessage={setMessage}

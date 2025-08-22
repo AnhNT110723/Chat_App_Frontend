@@ -71,6 +71,18 @@ function App() {
         setMessages((prev) => [...prev, msg]);
       }
     });
+
+
+    socket.on('messageSeen', ({ room, updates }) => {
+        if (room === (isGroupChat ? selectedRecipient : [username, selectedRecipient].sort().join('-'))) {
+            setMessages(prev => prev.map(msg => {
+                const update = updates.find(u => u.id === msg._id);  // So sánh bằng _id từ Mongo
+                console.log(update);
+                return update ? { ...msg, seenBy: update.seenBy } : msg;
+            }));
+        }
+    });
+
     socket.on("users", (onlineUsers) => {
       setUsers(onlineUsers);
     });
@@ -105,6 +117,7 @@ function App() {
       socket.off("messageHistory");
       socket.off("groupDeleted");
       socket.off("connect_error");
+      socket.off('messageSeen');
     };
   }, [username, selectedRecipient, isGroupChat, isLoggedIn]);
 
@@ -199,6 +212,7 @@ function App() {
     setMessages([]);
     const room = isGroup ? recipient : [username, recipient].sort().join("-");
     socket.emit("getMessageHistory", { room, isGroup });
+    socket.emit("markAsSeen", { room, isGroup });
     // Đặt lại số lượng tin nhắn chưa đọc cho phòng được chọn
     setUnreadCounts((prev) => {
       const newCounts = { ...prev };
@@ -280,7 +294,8 @@ function App() {
           setShowGroupOptions={setShowGroupOptions}
           groupOptionsData={groupOptionsData}
           setGroupOptionsData={setGroupOptionsData}
-          unreadCounts={unreadCounts} // Truyền unreadCounts vào ChatInterface
+          unreadCounts={unreadCounts}
+          socket={socket}  
         />
       )}
     </div>

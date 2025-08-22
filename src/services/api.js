@@ -1,7 +1,7 @@
 // src/services/api.js
 // This file handles all communication with your Node.js backend.
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://chat-app-backend-v2bg.onrender.com";
 
 /**
  * Handles user login.
