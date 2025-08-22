@@ -63,13 +63,19 @@ const MessageList = ({ messages, username, getInitials, isGroupChat, socket }) =
     });
   };
 
+    const isEmojiOnly = (text) => {
+    const emojiRegex = /^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F)+$/u;
+    return emojiRegex.test(text.trim());
+  };
+
+
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth" id="messagesContainer">
       {messages.map((msg, index) => {
         const isMyMessage = msg.user === username;
         const seenByOthers = msg.seenBy ? msg.seenBy.filter(u => u !== msg.user) : [];
         const showSeen = isMyMessage && seenByOthers.length > 0 && showSeenFor.has(msg._id);
-
+        const isEmojiMessage = isEmojiOnly(msg.text);
         return (
           <div 
             key={index} 
@@ -85,7 +91,11 @@ const MessageList = ({ messages, username, getInitials, isGroupChat, socket }) =
             <div className="flex flex-col space-y-1 max-w-xs">
               <div 
                 className={`rounded-2xl rounded-${isMyMessage ? 'tr' : 'tl'}-md px-4 py-2 shadow-sm ${
-                  isMyMessage ? "bg-gradient-to-r from-blue-500 to-purple-600 cursor-pointer" : "bg-white"
+                isEmojiMessage
+                    ? 'bg-transparent shadow-none text-4xl p-2'
+                    : isMyMessage
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 cursor-pointer'
+                    : 'bg-white'
                 }`}
                 onClick={isMyMessage ? () => toggleSeenStatus(msg._id) : undefined}
               >

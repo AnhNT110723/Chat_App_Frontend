@@ -53,3 +53,27 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+.emoji-picker-react {
+  position: absolute;
+  bottom: 60px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.message-bubble .text-4xl {
+  line-height: 1.2;
+}
+
+input, button {
+  outline: none;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.text-xxs {
+  font-size: 0.65rem;
+}

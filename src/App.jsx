@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
+import EmojiPicker from 'emoji-picker-react'; 
 import LoginRegisterForm from "./components/LoginRegisterForm.jsx";
 import ChatInterface from "./components/ChatInterface.jsx";
 
@@ -26,6 +27,7 @@ function App() {
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [showGroupOptions, setShowGroupOptions] = useState(false);
   const [groupOptionsData, setGroupOptionsData] = useState(null);
+  
   // Thêm state để theo dõi số lượng tin nhắn chưa đọc
   const [unreadCounts, setUnreadCounts] = useState({});
 
